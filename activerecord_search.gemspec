@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'activerecord_search'
-  s.version     = '1.1'
+  s.version     = '1.2'
   s.date        = Date.today.to_s
   s.summary     = "An easy way to write LIKE / ILIKE queries for Active Record models"
   s.description = "Extends the ActiveRecord predicate builder to allow writing LIKE/ILIKE queries without writing raw SQL"

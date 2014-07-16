@@ -3,7 +3,7 @@ module ActiverecordSearch
     def initialize(condition)
       @pattern = case condition
       when nil
-        nil
+        raise "Condition can't be nil"
       when Hash
         key, value = condition.first if condition.length == 1
         case key.to_sym
@@ -22,11 +22,7 @@ module ActiverecordSearch
     end
 
     def match(attribute)
-      if @pattern.nil?
-        attribute.eq(nil)
-      else
-        attribute.matches(@pattern)
-      end
+      attribute.matches(@pattern)
     end
   end
 end

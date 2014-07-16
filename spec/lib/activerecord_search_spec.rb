@@ -6,13 +6,13 @@ end
 describe ActiverecordSearch do
   let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users')) }
 
-  shared_examples_for 'generates the correct query' do |condition, attribute, pattern, expected_arel_class = Arel::Nodes::Matches|
+  shared_examples_for 'generates the correct query' do |condition, attribute, pattern|
     let(:arel_nodes) { relation.where(condition).where_values }
     let(:arel_node) { arel_nodes.first }
 
     it 'returns a Arel::Nodes::Matches node' do
       expect(arel_nodes.length).to eq 1
-      expect(arel_node).to be_an expected_arel_class
+      expect(arel_node).to be_an Arel::Nodes::Matches
     end
 
     it 'matches on the specified attribute' do
@@ -41,7 +41,9 @@ describe ActiverecordSearch do
   end
 
   describe 'nil values' do
-    it_should_behave_like 'generates the correct query', { foo: Search(nil) }, 'foo', nil, Arel::Nodes::Equality
+    it 'should return nil if nil is passed in' do
+      expect(Search(nil)).to be_nil
+    end
   end
 
   describe 'exceptions' do
