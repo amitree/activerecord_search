@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activerecord_search (1.0)
+    activerecord_search (1.1)
       activerecord (>= 4.0.0)
       rails (>= 4.0.0)
 

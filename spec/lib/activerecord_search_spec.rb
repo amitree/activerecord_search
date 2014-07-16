@@ -3,7 +3,7 @@ require 'spec_helper'
 class User < ActiveRecord::Base
 end
 
-describe Search do
+describe ActiverecordSearch do
   let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users')) }
 
   shared_examples_for 'generates the correct query' do |condition, attribute, pattern, expected_arel_class = Arel::Nodes::Matches|

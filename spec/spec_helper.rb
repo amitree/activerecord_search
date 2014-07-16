@@ -1,4 +1,4 @@
 require 'rails/all'
-require 'search'
+require 'activerecord_search'
 
-Search::Railtie.run_initializers
+ActiverecordSearch::Railtie.run_initializers

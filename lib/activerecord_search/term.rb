@@ -1,10 +1,4 @@
-module Search
-  class Railtie < ::Rails::Railtie
-    initializer "PredicateBuilder" do
-      ActiveRecord::PredicateBuilder.register_handler(Search::Term, ->(attribute, search_term) { search_term.match(attribute) })
-    end
-  end
-
+module ActiverecordSearch
   class Term
     def initialize(condition)
       @pattern = case condition
@@ -35,8 +29,4 @@ module Search
       end
     end
   end
-end
-
-def Search(*args)
-  Search::Term.new(*args)
 end
