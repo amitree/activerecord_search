@@ -1,14 +1,18 @@
 require 'spec_helper'
 
+ActiveRecord::Base.connection.create_table(:users) do |t|
+  t.string :foo
+end
+
 class User < ActiveRecord::Base
 end
 
 describe ActiverecordSearch do
-  let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users')) }
+  let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users'), User.predicate_builder) }
 
   shared_examples_for 'generates the correct query' do |condition, attribute, pattern|
-    let(:arel_nodes) { relation.where(condition).where_values }
-    let(:arel_node) { arel_nodes.first }
+    let(:arel_nodes) { relation.where(condition).where_clause.ast.children }
+    let(:arel_node) { arel_nodes.first.expr }
 
     it 'returns a Arel::Nodes::Matches node' do
       expect(arel_nodes.length).to eq 1
@@ -20,7 +24,7 @@ describe ActiverecordSearch do
     end
 
     it 'uses the right pattern' do
-      expect(arel_node.right).to eq pattern
+      expect(arel_node.right.val).to eq pattern
     end
   end
 
@@ -48,13 +52,13 @@ describe ActiverecordSearch do
 
   describe 'exceptions' do
     it 'should raise if an empty hash is passed' do
-      expect { Search({}) }.to raise_error
+      expect { Search({}) }.to raise_error(RuntimeError)
     end
     it 'should raise if multiple hash keys are passed' do
-      expect { Search({starts_with: 'a', ends_with: 'b'}) }.to raise_error
+      expect { Search({starts_with: 'a', ends_with: 'b'}) }.to raise_error(RuntimeError)
     end
     it 'should raise if an invalid hash key is passed' do
-      expect { Search({foo: 'bar'}) }.to raise_error
+      expect { Search({foo: 'bar'}) }.to raise_error(RuntimeError)
     end
   end
 end
