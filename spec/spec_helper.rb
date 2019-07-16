@@ -7,3 +7,9 @@ ActiveRecord::Base.establish_connection(
 )
 
 ActiverecordSearch::Railtie.run_initializers
+
+ActiveRecord::Base.connection.create_table(:users) do |t|
+  t.string :foo
+end
+class User < ActiveRecord::Base
+end

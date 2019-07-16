@@ -1,18 +1,20 @@
 require 'spec_helper'
 
-ActiveRecord::Base.connection.create_table(:users) do |t|
-  t.string :foo
-end
-
-class User < ActiveRecord::Base
-end
-
 describe ActiverecordSearch do
-  let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users'), User.predicate_builder) }
+  if Rails::VERSION::MINOR > 1
+    let(:relation) { ActiveRecord::Relation.new(User, table: Arel::Table.new('users'), predicate_builder: User.predicate_builder) }
+  else
+    let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users'), User.predicate_builder) }
+  end
 
   shared_examples_for 'generates the correct query' do |condition, attribute, pattern|
     let(:arel_nodes) { relation.where(condition).where_clause.ast.children }
-    let(:arel_node) { arel_nodes.first.expr }
+
+    if Rails::VERSION::MINOR > 1
+      let(:arel_node) { arel_nodes.first }
+    else
+      let(:arel_node) { arel_nodes.first.expr }
+    end
 
     it 'returns a Arel::Nodes::Matches node' do
       expect(arel_nodes.length).to eq 1
