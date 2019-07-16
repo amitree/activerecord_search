@@ -6,6 +6,8 @@ module ActiverecordSearch
         raise "Condition can't be nil"
       when Hash
         key, value = condition.first if condition.length == 1
+        raise "Condition can't be nil" if key.nil?
+
         case key.to_sym
         when :starts_with
           "#{value}%"
