@@ -1,7 +1,9 @@
 module ActiverecordSearch
   class Railtie < ::Rails::Railtie
     initializer "PredicateBuilder" do
-      ActiveRecord::PredicateBuilder.register_handler(::ActiverecordSearch::Term, ->(attribute, search_term) { search_term.match(attribute) })
+      ActiveSupport.on_load(:active_record) do
+        ActiveRecord::Base.singleton_class.send :prepend, ActiverecordSearch::PredicateHandler
+      end
     end
   end
 end
