@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 end
 
 describe ActiverecordSearch do
-  let(:relation) { ActiveRecord::Relation.new(User, Arel::Table.new('users'), User.predicate_builder) }
+  let(:relation) { ActiveRecord::Relation.new(User, table: Arel::Table.new('users'), predicate_builder: User.predicate_builder) }
 
   shared_examples_for 'generates the correct query' do |condition, attribute, pattern|
     let(:arel_nodes) { relation.where(condition).where_clause.ast.children }
