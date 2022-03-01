@@ -12,7 +12,7 @@ describe ActiverecordSearch do
 
   shared_examples_for 'generates the correct query' do |condition, attribute, pattern|
     let(:arel_nodes) { relation.where(condition).where_clause.ast.children }
-    let(:arel_node) { arel_nodes.first.expr }
+    let(:arel_node) { arel_nodes.first }
 
     it 'returns a Arel::Nodes::Matches node' do
       expect(arel_nodes.length).to eq 1

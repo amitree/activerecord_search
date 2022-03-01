@@ -3,7 +3,7 @@ PATH
   specs:
     activerecord_search (1.4)
       activerecord (~> 6.0.0)
-      rails (~> 6.0.0)
+      rails (>= 6.0.0)
 
 GEM
   remote: https://rubygems.org/
