@@ -11,11 +11,10 @@ describe ActiverecordSearch do
   let(:relation) { ActiveRecord::Relation.new(User, table: Arel::Table.new('users'), predicate_builder: User.predicate_builder) }
 
   shared_examples_for 'generates the correct query' do |condition, attribute, pattern|
-    let(:arel_nodes) { relation.where(condition).where_clause.ast.children }
-    let(:arel_node) { arel_nodes.first }
+    let(:arel_nodes) { relation.where(condition).where_clause }
+    let(:arel_node)  { arel_nodes.ast }
 
     it 'returns a Arel::Nodes::Matches node' do
-      expect(arel_nodes.length).to eq 1
       expect(arel_node).to be_an Arel::Nodes::Matches
     end
 
@@ -24,7 +23,7 @@ describe ActiverecordSearch do
     end
 
     it 'uses the right pattern' do
-      expect(arel_node.right.val).to eq pattern
+      expect(arel_node.right.value).to eq pattern
     end
   end
 

@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/activerecord_search'
   s.license     = 'MIT'
 
-  s.add_runtime_dependency 'activerecord', '~> 6.0.0'
-  s.add_runtime_dependency 'rails', '~> 6.0.0'
+  s.add_runtime_dependency 'activerecord', '~> 6.1.0'
+  s.add_runtime_dependency 'rails', '~> 6.1.0'
   s.add_development_dependency 'sqlite3', '~> 1.4.0'
   s.add_development_dependency 'rspec-rails', '>= 3.0.0.beta'
 end
